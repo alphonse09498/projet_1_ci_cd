@@ -1,0 +1,157 @@
+<!DOCTYPE html> 
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma Todo List Moderne</title>
+    <style>
+        /* CSS : Le design de la page */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #007bff;
+        }
+
+        button#add-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button#add-btn:hover {
+            background-color: #0056b3;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background: #fff;
+            border-bottom: 1px solid #eee;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        li.completed {
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        .delete-btn {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Ma Liste de Tâches</h2>
+    
+    <div class="input-group">
+        <input type="text" id="todo-input" placeholder="Ajouter une tâche...">
+        <button id="add-btn">Ajouter</button>
+    </div>
+
+    <ul id="todo-list">
+        </ul>
+</div>
+
+<script>
+    // JavaScript : La logique du programme
+    const input = document.getElementById('todo-input');
+    const addBtn = document.getElementById('add-btn');
+    const todoList = document.getElementById('todo-list');
+
+    addBtn.addEventListener('click', () => {
+        const text = input.value.trim();
+        if (text !== "") {
+            createTodo(text);
+            input.value = "";
+        }
+    });
+
+    function createTodo(text) {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <span class="task-text">${text}</span>
+            <button class="delete-btn">Supprimer</button>
+        `;
+
+        // Marquer comme terminé au clic sur le texte
+        li.querySelector('.task-text').addEventListener('click', () => {
+            li.classList.toggle('completed');
+        });
+
+        // Supprimer la tâche
+        li.querySelector('.delete-btn').addEventListener('click', () => {
+            li.remove();
+        });
+
+        todoList.appendChild(li);
+    }
+
+    // Permettre d'ajouter avec la touche "Entrée"
+    input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') addBtn.click();
+    });
+</script>
+
+</body>
+</html>
